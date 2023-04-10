@@ -1,7 +1,6 @@
 const cloudinary = require("../utilities/upload");
 
-const create_product = async (req, res) => {
-  // possible product categories [male, female, assesories, custom made]
+const upload_file = async (req, res) => {
   const file = req.files.image;
 
   try {
@@ -10,6 +9,9 @@ const create_product = async (req, res) => {
     }
 
     const result = await cloudinary.uploader.upload(file.tempFilePath, {
+      quality: 60,
+      width: 500,
+      height: 500,
       public_id: `${Date.now()}`,
       resource_type: "auto",
     });
@@ -22,3 +24,5 @@ const create_product = async (req, res) => {
     return res.status(500).send(error.message);
   }
 };
+
+module.exports = { upload_file };
